@@ -67,7 +67,7 @@ class SimpleRest
 
     public function encodeHtml($responseData)
     {
-        $htmlResponse = "<table border='1'>";
+        $htmlResponse = "<table>";
         foreach ($responseData as $key => $value) {
             $htmlResponse .= "<tr><td>" . $key . "</td><td>" . $value . "</td></tr>";
         }

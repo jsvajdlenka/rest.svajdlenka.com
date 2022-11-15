@@ -66,15 +66,6 @@ class Game
         return count($this->players) < $this->maxPlayers;
     }
 
-    public static function generateId($games) {
-        $gameId = 0;
-        foreach ($games as $game) {
-            if ($game.id > $gameId) {
-                $gameId = $game.id;
-            }
-        }
-        return $gameId+1;
-    }
 }
 
 
