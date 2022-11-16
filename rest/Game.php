@@ -5,8 +5,7 @@ require_once ("Player.php");
  * A domain Class Game
  */
 
-class Game
-{
+class Game {
     const STATE_WRONG_ID = "WRONG_ID";
     const STATE_CREATED  = "CREATED";   // Created game
     const STATE_JOINED   = "JOINED";    // If there is minimum one player joined to game
@@ -28,7 +27,7 @@ class Game
         $this->players = [];
     }
 
-    public static function withFull($minPlayers=2, $maxPlayers=9, $finishPos=103) {
+    public static function withFull($minPlayers, $maxPlayers, $finishPos) {
         $instance = new self();
         $instance->minPlayers = $minPlayers;
         $instance->maxPlayers = $maxPlayers;
@@ -66,6 +65,7 @@ class Game
 
     public function addJoiner($joiner) {
         $this->state = self::STATE_JOINED;
+        $this->actualPlayerId = $joiner->playerId;
         $this->players[$joiner->playerId] = $joiner;
         $this->lastUpdateTime = time();
     }
@@ -92,7 +92,7 @@ class Game
     }
 
     public function isGameFinished() {
-        foreach ($this->players as $playerid => $player) {
+        foreach ($this->players as $player) {
             if ($player->gamePos < $this->finishPos ) {
                 return false;
             }

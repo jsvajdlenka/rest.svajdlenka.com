@@ -19,7 +19,7 @@ class GameRestHandler extends SimpleRest {
     public function gameCreate($playerId, $playerName, $minPlayers, $maxPlayers, $finishPos) {
         $game = Game::withFull($minPlayers, $maxPlayers, $finishPos);
         $this->gameDao->insert($game);
-        $creator = Player::withFull($game->id, $playerId, $playerName);
+        $creator = Player::withFull($game, $playerId, $playerName);
         $this->playerDao->insert($creator);
         $game->addCreator($creator);
         $this->gameDao->update($game);
@@ -28,6 +28,9 @@ class GameRestHandler extends SimpleRest {
     }
 
     public function gameJoin($gameId, $playerId, $playerName) {
+        if ($gameId == -1) {
+            $gameId = $this->gameDao->findJoinableGameId();
+        }
         $game = $this->gameDao->findById($gameId);
         if ($game == null) {
             $this->sendErrorResponse("Game not exists");
@@ -39,7 +42,7 @@ class GameRestHandler extends SimpleRest {
             $this->sendErrorResponse("Game is full");
             return;
         }
-        $joiner = Player::withFull($gameId, $playerId, $playerName);
+        $joiner = Player::withFull($game, $playerId, $playerName);
         $this->playerDao->insert($joiner);
         $game->addJoiner($joiner);
         $this->gameDao->update($game);

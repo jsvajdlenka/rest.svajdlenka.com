@@ -21,10 +21,10 @@ class Player {
     function __construct() {
     }
 
-    public static function withFull($gameId, $playerId, $playerName = "") {
+    public static function withFull($game, $playerId, $playerName) {
         $instance = new self();
-        $instance->gameId = $gameId;
-        $instance->playerId = $playerId;
+        $instance->gameId = $game->id;
+        $instance->playerId = self::findFreePlayerId($game, $playerId);
         $instance->playerName = $playerName;
         $instance->serverRoll = -1;
         $instance->clientRoll = -1;
@@ -34,6 +34,18 @@ class Player {
         $instance->lastReadTime = time();
 
         return $instance;
+    }
+
+    public static function findFreePlayerId( $game, $playerId ) {
+        if ($playerId == -1) {
+            $gameIds = array_keys($game->players);
+            for ($gamePlayerId = 0; $gamePlayerId < $game->maxPlayers; $gamePlayerId++ ) {
+                if (!in_array($gamePlayerId, $gameIds)) {
+                    return $gamePlayerId;
+                }
+            }
+        }
+        return $playerId;
     }
 
     public static function withRow( array $row ) {

@@ -25,6 +25,18 @@ class GameDao
         return null;
     }
 
+    public function findJoinableGameId() {
+//        $query = "SELECT ID FROM ".self::TABLE." G WHERE G.STATE = 'CREATED' OR (G.STATE = 'JOINED' AND G.MAX_PLAYERS > (SELECT COUNT(*) FROM ".GameDao::TABLE." P WHERE P.GAME_ID = G.ID ));";
+        $query = "SELECT ID FROM game_hedgehog G WHERE G.STATE = 'CREATED' OR (G.STATE = 'JOINED' AND G.MAX_PLAYERS > (SELECT COUNT(*) FROM player_hedgehog P WHERE P.GAME_ID = G.ID ));";
+        $stmt = $this->dbh->prepare($query);
+        if ($stmt->execute()) {
+            if ($row = $stmt->fetch()) {
+                return $row["ID"];
+            }
+        }
+
+        return null;
+    }
     public function insert($game) {
         $query = "INSERT INTO ".self::TABLE;
         $query = $query." ( MIN_PLAYERS, MAX_PLAYERS, CREATOR_ID, ACTUAL_PLAYER_ID, ACTUAL_ROUND, STATE, FINISH_POS, LAST_UPDATE_TIME )";
