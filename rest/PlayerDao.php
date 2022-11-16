@@ -40,8 +40,8 @@ class PlayerDao
 
     public function insert($player) {
         $query = "INSERT INTO ".self::TABLE;
-        $query = $query." ( GAME_ID, PLAYER_ID, PLAYER_NAME, SERVER_ROLL, CLIENT_ROLL, CLIENT_ROUND, GAME_POS )";
-        $query = $query." VALUES ( ?, ?, ?, ?, ?, ?, ? );";
+        $query = $query." ( GAME_ID, PLAYER_ID, PLAYER_NAME, SERVER_ROLL, CLIENT_ROLL, CLIENT_ROUND, GAME_POS, LAST_UPDATE_TIME, LAST_READ_TIME )";
+        $query = $query." VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );";
 
         $values = [];
         array_push($values, $player->gameId);
@@ -51,6 +51,28 @@ class PlayerDao
         array_push($values, $player->clientRoll);
         array_push($values, $player->clientRound);
         array_push($values, $player->gamePos);
+        array_push($values, $player->lastUpdateTime);
+        array_push($values, $player->lastReadTime);
+
+        $this->dbh->prepare($query)->execute($values);
+        $player->id = $this->dbh->lastInsertId();
+    }
+
+    public function UPDATE($player) {
+        $query = "UPDATE ".self::TABLE;
+        $query = $query." SET PLAYER_NAME=?, SERVER_ROLL=?, CLIENT_ROLL=?, CLIENT_ROUND=?, GAME_POS=?, LAST_UPDATE_TIME=?, LAST_READ_TIME=? ";
+        $query = $query." WHERE GAME_ID=? AND PLAYER_ID=?;";
+
+        $values = [];
+        array_push($values, $player->playerName);
+        array_push($values, $player->serverRoll);
+        array_push($values, $player->clientRoll);
+        array_push($values, $player->clientRound);
+        array_push($values, $player->gamePos);
+        array_push($values, $player->lastUpdateTime);
+        array_push($values, $player->lastReadTime);
+        array_push($values, $player->gameId);
+        array_push($values, $player->playerId);
 
         $this->dbh->prepare($query)->execute($values);
         $player->id = $this->dbh->lastInsertId();

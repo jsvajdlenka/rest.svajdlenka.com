@@ -11,18 +11,32 @@ $database = new Database();
 $gameRestHandler = new GameRestHandler($database);
 
 switch ($action) {
-    case "roll":
-        // to handle REST Url /mobile/list/
-        $mobileRestHandler = new HedgehogRestHandler();
-        $mobileRestHandler->rollDice($_GET["id"]);
-        break;
     case "create":
-        $gameRestHandler->createGame($_GET["playerid"], $_GET["playername"], $_GET["count"], $_GET["uniqueplayers"]);
+        $gameRestHandler->gameCreate( $_GET["playerid"]
+                                    , $_GET["playername"]
+                                    , $_GET["count"]
+                                    , $_GET["uniqueplayers"]
+                                    , $_GET["finishpos"] );
         break;
     case "join":
-        $gameRestHandler->joinGame($_GET["gameid"], $_GET["playerid"], $_GET["playername"]);
+        $gameRestHandler->gameJoin( $_GET["gameid"]
+                                  , $_GET["playerid"]
+                                  , $_GET["playername"] );
         break;
-
+    case "start":
+        $gameRestHandler->gameStart( $_GET["gameid"]
+                                   , $_GET["playerid"] );
+        break;
+    case "roll":
+        $gameRestHandler->playerRoll( $_GET["gameid"]
+                                    , $_GET["playerid"]
+                                    , $_GET["clientround"]
+                                    , $_GET["clientroll"] );
+        break;
+    case "status":
+        $gameRestHandler->playerStatus( $_GET["gameid"]
+                                      , $_GET["playerid"] );
+        break;
 
     case "":
         // 404 - not found;

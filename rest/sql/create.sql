@@ -5,7 +5,9 @@ CREATE TABLE `game_hedgehog` (
                                  `CREATOR_ID` int(11) NOT NULL,
                                  `ACTUAL_PLAYER_ID` int(11) NOT NULL,
                                  `ACTUAL_ROUND` int(11) NOT NULL,
-                                 `STATE` varchar(64) NOT NULL
+                                 `FINISH_POS` int(11) NOT NULL,
+                                 `STATE` varchar(64) NOT NULL,
+                                 `LAST_UPDATE_TIME` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -36,11 +38,13 @@ CREATE TABLE `player_hedgehog` (
                                    `ID` int(11) NOT NULL,
                                    `GAME_ID` int(11) NOT NULL,
                                    `PLAYER_ID` int(11) NOT NULL,
-                                   `PLAYER_NAME` varchar(64) NOT NULL,
+                                   `PLAYER_NAME` varchar(64) DEFAULT NULL,
                                    `SERVER_ROLL` int(11) NOT NULL,
-                                   `CLIENT_ROLL` int(11) NOT NULL,
+                                   `CLIENT_ROLL` int(11) DEFAULT NULL,
                                    `CLIENT_ROUND` int(11) NOT NULL,
-                                   `GAME_POS` int(11) NOT NULL
+                                   `GAME_POS` int(11) NOT NULL,
+                                   `LAST_UPDATE_TIME` int(11) NOT NULL,
+                                   `LAST_READ_TIME` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
