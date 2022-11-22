@@ -73,6 +73,12 @@ class Player {
         $this->gamePos += $this->serverRoll;
     }
 
+    public function nextPlayer($clientRound) {
+        $this->lastUpdateTime = time();
+        $this->lastReadTime = time();
+        $this->clientRound = $clientRound;
+    }
+
     public function markRead() {
         $this->lastReadTime = time();
     }

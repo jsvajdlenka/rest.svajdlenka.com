@@ -17,6 +17,7 @@ const A_CREATE = "create";
 const A_JOIN = "join";
 const A_START = "start";
 const A_ROLL = "roll";
+const A_NEXT = "next";
 const A_STATUS = "status";
 
 function getParam($key, $default="") {
@@ -55,6 +56,11 @@ switch ($action) {
                                     , getParam(P_PLAYER_ID, -1)
                                     , getParam(P_CLIENT_ROUND, -1)
                                     , getParam(P_CLIENT_ROLL, -1) );
+        break;
+    case A_NEXT:
+        $gameRestHandler->playerNext( getParam(P_GAME_ID, -1)
+                                    , getParam(P_PLAYER_ID, -1)
+                                    , getParam(P_CLIENT_ROUND, -1) );
         break;
     case A_STATUS:
         $gameRestHandler->playerStatus( getParam(P_GAME_ID, -1)

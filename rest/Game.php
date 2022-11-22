@@ -19,6 +19,7 @@ class Game {
     public $creatorId;             // Player who created game
     public $actualPlayerId = 0;    // Actual player id
     public $actualRound = 0;       // Actual round of game
+    public $actualMove = 0;        // Actual move in game
     public $state = self::STATE_CREATED; // Actual state of game
     public $lastUpdateTime;        // Last timestamp of change
     public $players = [];          // All players of game
@@ -35,6 +36,7 @@ class Game {
         $instance->creatorId = -1;
         $instance->actualPlayerId = -1;
         $instance->actualRound = 0;
+        $instance->actualMove = 0;
         $instance->lastUpdateTime = time();
         $instance->state = self::STATE_CREATED;
 
@@ -49,6 +51,7 @@ class Game {
         $instance->creatorId = $row["CREATOR_ID"];
         $instance->actualPlayerId = $row["ACTUAL_PLAYER_ID"];
         $instance->actualRound = $row["ACTUAL_ROUND"];
+        $instance->actualMove = $row["ACTUAL_MOVE"];
         $instance->state = $row["STATE"];
         $instance->finishPos = $row["FINISH_POS"];
         $instance->lastUpdateTime = $row["LAST_UPDATE_TIME"];
@@ -74,6 +77,11 @@ class Game {
         $this->state = self::STATE_STARTED;
         $this->actualRound = 1;
         $this->lastUpdateTime = time();
+    }
+
+    public function rollDice() {
+        $this->lastUpdateTime = time();
+        $this->actualMove += 1;
     }
 
     public function nextPlayer() {

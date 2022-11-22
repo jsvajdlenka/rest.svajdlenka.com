@@ -96,11 +96,40 @@ class GameRestHandler extends SimpleRest {
             return;
         }
         $player->rollDice($clientRoll, $clientRound);
+        $game->rollDice();
+        $this->gameDao->update($game);
+        $this->playerDao->update($player);
+        $this->sendGameResponse($game);
+    }
+
+    public function playerNext($gameId, $playerId, $clientRound) {
+        $game = $this->gameDao->findById($gameId);
+        if ($game == null) {
+            $this->sendErrorResponse("Game not exists");
+            return;
+        }
+        // Read joined players
+        $game->players = $this->playerDao->findByGameId($gameId);
+        if ($game->actualPlayerId != $playerId) {
+            $this->sendErrorResponse("Player is not on the move");
+            return;
+        }
+        if ( !array_key_exists($playerId, $game->players) ) {
+            $this->sendErrorResponse("Unknown player for game");
+            return;
+        }
+        $player = $game->players[$playerId];
+        if ($clientRound != $game->actualRound) {
+            $this->sendErrorResponse("Not correct round for game");
+            return;
+        }
+        $player->nextPlayer($clientRound);
         $game->nextPlayer();
         $this->gameDao->update($game);
         $this->playerDao->update($player);
         $this->sendGameResponse($game);
     }
+
 
     public function playerStatus($gameId, $playerId) {
         $game = $this->gameDao->findById($gameId);

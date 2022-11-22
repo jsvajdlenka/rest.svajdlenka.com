@@ -39,8 +39,8 @@ class GameDao
     }
     public function insert($game) {
         $query = "INSERT INTO ".self::TABLE;
-        $query = $query." ( MIN_PLAYERS, MAX_PLAYERS, CREATOR_ID, ACTUAL_PLAYER_ID, ACTUAL_ROUND, STATE, FINISH_POS, LAST_UPDATE_TIME )";
-        $query = $query." VALUES ( ?, ?, ?, ?, ?, ?, ?, ? );";
+        $query = $query." ( MIN_PLAYERS, MAX_PLAYERS, CREATOR_ID, ACTUAL_PLAYER_ID, ACTUAL_ROUND, ACTUAL_MOVE, STATE, FINISH_POS, LAST_UPDATE_TIME )";
+        $query = $query." VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );";
 
         $values = [];
         array_push($values, $game->minPlayers);
@@ -48,6 +48,7 @@ class GameDao
         array_push($values, $game->creatorId);
         array_push($values, $game->actualPlayerId);
         array_push($values, $game->actualRound);
+        array_push($values, $game->actualMove);
         array_push($values, $game->state);
         array_push($values, $game->finishPos);
         array_push($values, $game->lastUpdateTime);
@@ -58,7 +59,7 @@ class GameDao
 
     public function update($game) {
         $query = "UPDATE ".self::TABLE;
-        $query = $query." SET MIN_PLAYERS=?, MAX_PLAYERS=?, CREATOR_ID=?, ACTUAL_PLAYER_ID=?, ACTUAL_ROUND=?, STATE=?, FINISH_POS=?, LAST_UPDATE_TIME=? ";
+        $query = $query." SET MIN_PLAYERS=?, MAX_PLAYERS=?, CREATOR_ID=?, ACTUAL_PLAYER_ID=?, ACTUAL_ROUND=?, ACTUAL_MOVE=?, STATE=?, FINISH_POS=?, LAST_UPDATE_TIME=? ";
         $query = $query." WHERE ID = ?;";
 
         $values = [];
@@ -67,6 +68,7 @@ class GameDao
         array_push($values, $game->creatorId);
         array_push($values, $game->actualPlayerId);
         array_push($values, $game->actualRound);
+        array_push($values, $game->actualMove);
         array_push($values, $game->state);
         array_push($values, $game->finishPos);
         array_push($values, $game->lastUpdateTime);
