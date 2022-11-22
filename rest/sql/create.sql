@@ -5,6 +5,7 @@ CREATE TABLE `game_hedgehog` (
                                  `CREATOR_ID` int(11) NOT NULL,
                                  `ACTUAL_PLAYER_ID` int(11) NOT NULL,
                                  `ACTUAL_ROUND` int(11) NOT NULL,
+                                 `ACTUAL_MOVE` int(11) NOT NULL,
                                  `FINISH_POS` int(11) NOT NULL,
                                  `STATE` varchar(64) NOT NULL,
                                  `LAST_UPDATE_TIME` int(11) NOT NULL
