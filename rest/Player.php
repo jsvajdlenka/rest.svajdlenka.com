@@ -17,6 +17,7 @@ class Player {
     public $gamePos;             // Position/field in game
     public $lastUpdateTime;      // Last timestamp of change
     public $lastReadTime;        // Last timestamp of read or change
+    public $messages;            // Messages for player
 
     function __construct() {
     }
@@ -32,6 +33,7 @@ class Player {
         $instance->gamePos = 0;
         $instance->lastUpdateTime = time();
         $instance->lastReadTime = time();
+        $instance->messages = "";
 
         return $instance;
     }
@@ -60,6 +62,7 @@ class Player {
         $instance->gamePos = $row["GAME_POS"];
         $instance->lastUpdateTime = $row["LAST_UPDATE_TIME"];
         $instance->lastReadTime = $row["LAST_READ_TIME"];
+        $instance->messages = $row["MESSAGES"];
 
         return $instance;
     }
@@ -79,8 +82,12 @@ class Player {
         $this->clientRound = $clientRound;
     }
 
-    public function markRead() {
-        $this->lastReadTime = time();
+    public function addMessage($playerId, $serverRoll) {
+        if (strlen($this->messages) == 0) {
+            $this->messages = $playerId."=".$serverRoll;
+        } else {
+            $this->messages = $this->messages.",".$playerId."=".$serverRoll;
+        }
     }
 }
 

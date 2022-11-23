@@ -91,14 +91,17 @@ class GameRestHandler extends SimpleRest {
             return;
         }
         $player = $game->players[$playerId];
-        if ($clientRound != $game->actualRound) {
-            $this->sendErrorResponse("Not correct round for game");
-            return;
-        }
+//        if ($clientRound != $game->actualRound) {
+//            $this->sendErrorResponse("Not correct round for game");
+//            return;
+//        }
         $player->rollDice($clientRoll, $clientRound);
-        $game->rollDice();
+        $game->rollDice($player->playerId, $player->serverRoll);
         $this->gameDao->update($game);
-        $this->playerDao->update($player);
+        foreach($game->players as $updatePlayer) {
+            $this->playerDao->update($updatePlayer);
+        }
+
         $this->sendGameResponse($game);
     }
 
@@ -130,7 +133,6 @@ class GameRestHandler extends SimpleRest {
         $this->sendGameResponse($game);
     }
 
-
     public function playerStatus($gameId, $playerId) {
         $game = $this->gameDao->findById($gameId);
         if ($game == null) {
@@ -144,8 +146,7 @@ class GameRestHandler extends SimpleRest {
             return;
         }
         $player = $game->players[$playerId];
-        $player->markRead();
-        $this->playerDao->update($player);
+        $this->playerDao->markRead($player);
         $this->sendGameResponse($game);
     }
 

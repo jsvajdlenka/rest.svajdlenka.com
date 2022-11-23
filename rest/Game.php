@@ -79,9 +79,14 @@ class Game {
         $this->lastUpdateTime = time();
     }
 
-    public function rollDice() {
+    public function rollDice($playerId, $serverRoll) {
         $this->lastUpdateTime = time();
         $this->actualMove += 1;
+        foreach ($this->players as $player) {
+            if ($playerId != $player->playerId) {
+                $player->addMessage($playerId, $serverRoll);
+            }
+        }
     }
 
     public function nextPlayer() {

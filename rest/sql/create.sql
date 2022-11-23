@@ -45,7 +45,8 @@ CREATE TABLE `player_hedgehog` (
                                    `CLIENT_ROUND` int(11) NOT NULL,
                                    `GAME_POS` int(11) NOT NULL,
                                    `LAST_UPDATE_TIME` int(11) NOT NULL,
-                                   `LAST_READ_TIME` int(11) NOT NULL
+                                   `LAST_READ_TIME` int(11) NOT NULL,
+                                    `MESSAGES` varchar(2000) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
