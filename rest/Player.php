@@ -82,11 +82,11 @@ class Player {
         $this->clientRound = $clientRound;
     }
 
-    public function addMessage($playerId, $serverRoll) {
+    public function addMessage($playerId, $clientRound, $serverRoll) {
         if (strlen($this->messages) == 0) {
-            $this->messages = $playerId."=".$serverRoll;
+            $this->messages = $playerId."=".$clientRound."=".$serverRoll;
         } else {
-            $this->messages = $this->messages.",".$playerId."=".$serverRoll;
+            $this->messages = $this->messages.",".$playerId."=".$clientRound."=".$serverRoll;
         }
     }
 }
